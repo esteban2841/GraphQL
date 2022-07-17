@@ -1,4 +1,6 @@
-const { makeExecutableSchema } = require("graphql-tools/schema")
+
+require("dotenv").config()
+const { makeExecutableSchema } = require('@graphql-tools/schema')
 const express = require("express")
 const {graphqlHTTP}= require("express-graphql")
 const {readFileSync} = require("fs")
@@ -16,10 +18,6 @@ const typeDefs = readFileSync(
 )
 
 const schema = makeExecutableSchema({typeDefs, resolvers})
-
-
-let source = '{ saludo }';
-
 //configurar resolvers
 
 app.use("/api", graphqlHTTP({
