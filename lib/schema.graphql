@@ -5,6 +5,8 @@ type Course{
     description: String
     topic: String
 }
+type Student {
+}
 type Query{
     "devuelve todos los cursos"
     getCourses: [Course]
