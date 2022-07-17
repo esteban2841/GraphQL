@@ -1,4 +1,4 @@
-const { graphql, buildSchema } = require("graphql")
+const { makeExecutableSchema } = require("graphql-tools/schema")
 const express = require("express")
 const {graphqlHTTP}= require("express-graphql")
 const {readFileSync} = require("fs")
@@ -9,17 +9,18 @@ const app = express()
 const port = process.env.port || 3000
 
 //define schema
-const schema = buildSchema(
-    readFileSync(
+
+const typeDefs = readFileSync(
     join(__dirname, 'lib', 'schema.graphql'),
     'utf-8'
-))
+)
+
+const schema = makeExecutableSchema({typeDefs, resolvers})
 
 
 let source = '{ saludo }';
 
 //configurar resolvers
-
 
 app.use("/api", graphqlHTTP({
     schema : schema,
