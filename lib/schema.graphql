@@ -1,3 +1,11 @@
+
+enum Level{
+    principiante
+    intermedio
+    avanzado
+}
+
+
 type Course{
     _id: ID!
     title: String!
@@ -5,12 +13,26 @@ type Course{
     description: String!
     topic: String
     people: [Student]
+    lvl: Level!
 }
 
-type Student {
+interface Person{
     _id:ID!
     name: String!
     email: String!
+}
+
+type Student implements Person{
+    _id:ID!
+    name: String!
+    email: String!
+    avatar: String
+}
+type Monitor implements Person{
+    _id:ID!
+    name: String!
+    email: String!
+    phone: String
 }
 
 type Query{
@@ -19,9 +41,9 @@ type Query{
     "Devuelve un curso"
     getCourse(id: ID!): Course
     "devuelve todos los cursos"
-    getStudents: [Student]
+    getPeople: [Person]
     "Devuelve un estudiante"
-    getStudent(id: ID!): Student
+    getPerson(id: ID!): Person
 }
 
 input CourseInput{
@@ -29,6 +51,7 @@ input CourseInput{
     teacher: String
     description: String!
     topic: String
+    level: Level
 }
 input CourseEditInput{
     title: String
@@ -36,13 +59,15 @@ input CourseEditInput{
     description: String
     topic: String
 }
-input StudentInput{
+input PersonInput{
     name: String!
     email: String!
 }
-input StudentEditInput{
+input PersonEditInput{
     name: String
     email: String
+    phone: String
+    avatar: String
 }
 
 type Mutation {
@@ -50,10 +75,10 @@ type Mutation {
     createCourse(input: CourseInput!): Course
     "Edita un curso"
     editCourse( _id:ID!, input: CourseEditInput): Course
-    "Crea un estudiante"
-    createStudent(input: StudentInput!): Student
+    "Crea una persona"
+    createPerson(input: PersonInput!): Person
      "Edita un curso"
-    editStudent( _id:ID!, input: StudentEditInput ): Student
+    editPerson( _id:ID!, input: PersonEditInput ): Person
     "agrega una persona a un curso"
     addPeople(courseID: ID!, personID:ID!): Course
 }
